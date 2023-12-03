@@ -1,5 +1,4 @@
 name: run-checkov
-
 on:
   push:
     branches: ["main"]
@@ -7,26 +6,25 @@ on:
     branches: ["main"]
 jobs:
   scan:
+    runs_on: ubuntu-latest
     permissions:
       contents: read
       security-events: write
       actions: read
 
-      runs_on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
-      steps:
-        - uses: actions/checkout@v4
+      - name: Checkov Github Action
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          output_format: cli,sarif
+          output_file_path: console,results.sarif
 
-        - name: Checkov Github Action
-          uses: bridgecrewio/checkov-action@v12
-          with:
-            output_format: cli,sarif
-            output_file_path: console,results.sarif
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v2
 
-        - name: Upload SARIF file
-          uses: github/codeql-action/upload-sarif@v2
-
-          if: success() || failure ()
+        if: success() || failure ()
           with:
             sarif_file: results.sarif
   
