@@ -6,7 +6,7 @@ on:
     branches: ["main"]
 jobs:
   scan:
-    runs_on: ubuntu-latest
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       security-events: write
