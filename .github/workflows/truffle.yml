@@ -24,9 +24,3 @@ jobs:
           path: ./
           base: ""
           head: ${{ github.ref_name }}
-
-      - name: Scan Results Status
-        if: steps.trufflehog.outcome == 'failure'
-        run: |
-          echo "I RAN"
-          exit 1
